@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import (
-    QWidget, QPushButton, QVBoxLayout, QLabel
+    QWidget, QPushButton, QVBoxLayout, QLabel, QHBoxLayout
 )
 from PyQt5.QtGui import QFont
 from PyQt5.QtCore import Qt
@@ -18,6 +18,12 @@ class MainMenuView(QWidget):
 
     def initUI(self):
         layout = QVBoxLayout()
+        tooBar = QHBoxLayout()
+        tooBar.addStretch()
+        logoutBtn = QPushButton("로그아웃")
+        logoutBtn.clicked.connect(self.logout)
+        tooBar.addWidget(logoutBtn)
+        layout.addLayout(tooBar)
 
         title = QLabel("TXT Scan Main Menu")
         title.setFont(QFont("Arial", 18, QFont.Bold))
@@ -27,7 +33,6 @@ class MainMenuView(QWidget):
         inputBtn = QPushButton("텍스트 직접 입력")
         resultBtn = QPushButton("결과 보기")
         saveBtn = QPushButton("결과 저장 목록")
-        logoutBtn = QPushButton("로그아웃")
 
         uploadBtn.clicked.connect(self.goUpload)
         inputBtn.clicked.connect(self.goInputText)
@@ -40,6 +45,5 @@ class MainMenuView(QWidget):
         layout.addWidget(inputBtn)
         layout.addWidget(resultBtn)
         layout.addWidget(saveBtn)
-        layout.addWidget(logoutBtn)
 
         self.setLayout(layout)

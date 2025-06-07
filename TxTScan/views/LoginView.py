@@ -19,15 +19,8 @@ class LoginView(QWidget):
         width = int(screenSize.width() * 0.4)
         height = int(screenSize.height() * 0.4)
         self.resize(width, height)
-
-        self.center()
+        
         self.setupUI()
-
-    def center(self):
-        qr = self.frameGeometry()
-        cp = QDesktopWidget().availableGeometry().center()
-        qr.moveCenter(cp)
-        self.move(qr.topLeft())
 
     def setupUI(self):
         title = QLabel("TxT Scan")

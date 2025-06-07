@@ -1,9 +1,11 @@
-PyQt5
-pytesseract
-opencv-python
-googletrans==4.0.0rc1
-transformers
-torch
+PyQt5 : pip install PyQt5
+pytesseract : pip install pytesseract
+opencv-python : pip install opencv-python
+googletrans==4.0.0rc1 : pip install googletrans==4.0.0rc1
+transformers : pip install transformers
+torch : pip install torch
+Tesseract-OCR
+
 
 1. LoginView → SignUpView → Authentication → main.py → MainMenuView
 2. InputTextView → TextProcessor → Summarizer + Translator → ResultView
