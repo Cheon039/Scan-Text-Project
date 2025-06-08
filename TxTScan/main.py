@@ -61,7 +61,12 @@ class MainApp(QMainWindow):
         print("UploadView로 이동 (아직 구현 안됨)")
 
     def showResultView(self, result):
-        resultView = ResultView(result)
+        if not isinstance(result, str):
+            print(f"[ERROR] showResultView()에 전달된 result의 타입이 str이 아님: {type(result)} → {repr(result)}")
+            result = "[결과가 없습니다.]"
+
+        resultView = ResultView(result, goBack=self.showMainMenuView)
+        self.setCentralWidget(resultView)
 
     def showSaveResultView(self):
         print("SaveResultView로 이동 (아직 구현 안됨)")

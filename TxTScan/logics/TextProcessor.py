@@ -17,9 +17,12 @@ class TextProcessor:
         self.summarizer.setInput(text)
         self.summarizer.setModel()
         success = self.summarizer.runProgram()
-        if success:
-            return self.summarizer.getResult()
+
+        result = self.summarizer.getResult()
+        if success and isinstance(result, str) and result.strip():
+            return result
         else:
+            print(f"[DEBUG] 요약 실패 또는 비정상 타입: {type(result)} / {repr(result)}")
             return "[요약 실패]"
 
     def processTranslate(self, text):

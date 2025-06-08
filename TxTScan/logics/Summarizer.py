@@ -36,7 +36,7 @@ class Summarizer:
             summary_ids = self.summaryModel.generate(
                 inputs, max_length=self.maxLen, min_length=30, length_penalty=2.0, num_beams=4, early_stopping=True
             )
-            self.programResult = self.tokenizer.decode(summary_ids[0], skip_special_tokens=True)
+            self.programResult = self.tokenizer.decode(summary_ids[0], skip_special_tokens=True, clean_up_tokenization_spaces=True)  # ✅ 문장 부자연스러움 제거
             return True
         except Exception as e:
             print(f"요약 오류: {e}")
