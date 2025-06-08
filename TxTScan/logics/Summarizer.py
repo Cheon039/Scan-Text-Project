@@ -1,12 +1,16 @@
 import re
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+from langdetect import detect  # pip install langdetect
 
 class Summarizer:
     def __init__(self, maxLen=100):
         self.maxLen = maxLen
-        model_name = "digit82/kobart-summarization"
-        self.tokenizer = AutoTokenizer.from_pretrained(model_name)
-        self.model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
+        self.ko_tokenizer = AutoTokenizer.from_pretrained("digit82/kobart-summarization")
+        self.ko_model = AutoModelForSeq2SeqLM.from_pretrained("digit82/kobart-summarization")
+
+        self.en_tokenizer = AutoTokenizer.from_pretrained("facebook/bart-large-cnn")
+        self.en_model = AutoModelForSeq2SeqLM.from_pretrained("facebook/bart-large-cnn")
+
         self.inputText = ""
         self.programResult = ""
 
@@ -14,20 +18,25 @@ class Summarizer:
         self.inputText = text.strip()
 
     def setModel(self):
-        pass  # 이미 __init__에서 설정 완료
+        pass  # 이미 __init__에서 설정됨
 
     def runProgram(self):
         try:
-            # 1. 전체 입력을 tokenizer로 인코딩 (토큰 기준 1024 제한)
-            tokens = self.tokenizer(
+            lang = detect(self.inputText[:500])
+
+            if lang == "ko":
+                tokenizer, model = self.ko_tokenizer, self.ko_model
+            else:
+                tokenizer, model = self.en_tokenizer, self.en_model
+
+            tokens = tokenizer(
                 self.inputText,
                 return_tensors="pt",
                 truncation=True,
                 max_length=1024
             )["input_ids"]
 
-            # 2. 요약 실행
-            output = self.model.generate(
+            output = model.generate(
                 tokens,
                 max_length=300,
                 min_length=100,
@@ -35,13 +44,12 @@ class Summarizer:
                 early_stopping=True
             )
 
-            summary = self.tokenizer.decode(
+            summary = tokenizer.decode(
                 output[0],
                 skip_special_tokens=True,
                 clean_up_tokenization_spaces=True
             ).strip()
 
-            # 3. 후처리
             self.programResult = self.postProcess(summary)
             return True
 
@@ -51,13 +59,9 @@ class Summarizer:
             return False
 
     def postProcess(self, text):
-        """후처리: 반복 제거, 문장 정리 등"""
-
-        # 불필요 반복 단어 제거
         text = re.sub(r"(않고\s+){2,}", "않고 ", text)
         text = re.sub(r"(다\.){2,}", "다.", text)
 
-        # 문장 단위 중복 제거
         sentences = re.split(r'(?<=[.。!?])\s+', text)
         seen = set()
         unique = []
