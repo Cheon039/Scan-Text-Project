@@ -4,7 +4,7 @@ import os
 class ResultManager:
     def __init__(self, user):
         self.user = user
-        self.filePath = f"TxTScan/user_data/results_{user}.json"
+        self.filePath = f"TxTScan/userResult/results{user}.json"
         os.makedirs(os.path.dirname(self.filePath), exist_ok=True)
 
         # 파일이 없으면 빈 리스트로 초기화

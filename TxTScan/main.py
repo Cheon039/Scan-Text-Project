@@ -8,6 +8,8 @@ from views.MainMenuView import MainMenuView
 from views.InputTextView import InputTextView
 from views.ResultView import ResultView
 from logics.DataController import DataController
+from views.SaveResultView import SaveResultView
+from views.UploadView import UploadView
 
 class MainApp(QMainWindow):
     def __init__(self):
@@ -17,7 +19,7 @@ class MainApp(QMainWindow):
         self.center()
         self.currentUser = None
         self.dataController = None
-
+        self.lastResult = None
         self.showLoginView()
 
     def showLoginView(self):
@@ -60,16 +62,27 @@ class MainApp(QMainWindow):
     def showUploadView(self):
         print("UploadView로 이동 (아직 구현 안됨)")
 
-    def showResultView(self, result):
-        if not isinstance(result, str):
-            print(f"[ERROR] showResultView()에 전달된 result의 타입이 str이 아님: {type(result)} → {repr(result)}")
-            result = "[결과가 없습니다.]"
+    def showResultView(self, result=None):
+        if result is not None and isinstance(result, str):
+            self.lastResult = result  # ✅ 새로 들어온 결과 저장
+        elif self.lastResult is None:
+            print("[INFO] 표시할 결과가 없습니다.")
+            self.lastResult = "[결과가 없습니다.]"
 
-        resultView = ResultView(result, goBack=self.showMainMenuView)
+        resultView = ResultView(self.lastResult, goBack=self.showMainMenuView, dataController=self.dataController)
         self.setCentralWidget(resultView)
 
     def showSaveResultView(self):
-        print("SaveResultView로 이동 (아직 구현 안됨)")
+        view = SaveResultView(self.currentUser, goBack=self.showMainMenuView)
+        self.setCentralWidget(view)
+
+    def showUploadView(self):
+        uploadView = UploadView(
+            dataController=self.dataController,
+            goResult=self.showResultView,
+            goBack=self.showMainMenuView
+        )
+        self.setCentralWidget(uploadView)
 
 if __name__ == "__main__":
     app = QApplication([])

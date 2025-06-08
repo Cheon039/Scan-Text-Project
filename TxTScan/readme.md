@@ -5,7 +5,8 @@ googletrans==4.0.0rc1 : pip install googletrans==4.0.0rc1
 transformers : pip install transformers
 torch : pip install torch
 Tesseract-OCR
-
+sickit-learn : pip install scikit-learn
+langdetect : pip install langdetect
 
 1. LoginView → SignUpView → Authentication → main.py → MainMenuView
 2. InputTextView → TextProcessor → Summarizer + Translator → ResultView
