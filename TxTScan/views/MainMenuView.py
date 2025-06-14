@@ -1,7 +1,8 @@
+import os
 from PyQt5.QtWidgets import (
     QWidget, QPushButton, QVBoxLayout, QLabel, QHBoxLayout
 )
-from PyQt5.QtGui import QFont
+from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import Qt
 
 
@@ -25,9 +26,20 @@ class MainMenuView(QWidget):
         layoutH.addWidget(logoutBtn)
         layoutV.addLayout(layoutH)
 
-        title = QLabel("TXT Scan Main Menu")
-        title.setFont(QFont("Arial", 18, QFont.Bold))
-        title.setAlignment(Qt.AlignCenter)
+        # 로고 삽입
+        currentDir = os.path.dirname(os.path.abspath(__file__))
+        logoPath = os.path.join(currentDir, "ScanLogo.png")
+
+        logoLabel = QLabel()
+        logoPixmap = QPixmap(logoPath)
+
+        logoPixmap = logoPixmap.scaled(300, 300, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+        logoLabel.setPixmap(logoPixmap)
+
+        logoLabel.setAlignment(Qt.AlignCenter)
+
+        layoutV.addWidget(logoLabel)
+
 
         uploadBtn = QPushButton("문서 / 이미지 업로드")
         inputBtn = QPushButton("텍스트 직접 입력")
@@ -40,7 +52,6 @@ class MainMenuView(QWidget):
         saveViewBtn.clicked.connect(self.goSave)
         logoutBtn.clicked.connect(self.logout)
 
-        layoutV.addWidget(title)
         layoutV.addWidget(uploadBtn)
         layoutV.addWidget(inputBtn)
         layoutV.addWidget(resultBtn)

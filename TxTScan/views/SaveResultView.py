@@ -14,7 +14,7 @@ class SaveResultView(QWidget):
         self.initUI()
 
     def initUI(self):
-        layout = QVBoxLayout()
+        layoutV = QVBoxLayout()
 
         self.list = QListWidget()
         self.detailBox = QTextEdit()
@@ -23,17 +23,17 @@ class SaveResultView(QWidget):
         self.backBtn = QPushButton("돌아가기")
         self.backBtn.clicked.connect(self.goBack)
 
-        self.delBtn = QPushButton("선택 삭제") 
+        self.delBtn = QPushButton("삭제") 
         self.delBtn.clicked.connect(self.handleDelete)   
 
-        layout.addWidget(QLabel("저장된 결과 목록:"))
-        layout.addWidget(self.list)
-        layout.addWidget(QLabel("상세 내용:"))
-        layout.addWidget(self.detailBox)
-        layout.addWidget(self.delBtn)
-        layout.addWidget(self.backBtn)
+        layoutV.addWidget(QLabel("저장된 결과 목록:"))
+        layoutV.addWidget(self.list)
+        layoutV.addWidget(QLabel("상세 내용:"))
+        layoutV.addWidget(self.detailBox)
+        layoutV.addWidget(self.delBtn)
+        layoutV.addWidget(self.backBtn)
 
-        self.setLayout(layout)
+        self.setLayout(layoutV)
         self.loadResults()
 
         self.list.currentRowChanged.connect(self.showDetail)
