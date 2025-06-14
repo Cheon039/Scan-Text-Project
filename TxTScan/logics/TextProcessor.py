@@ -15,7 +15,6 @@ class TextProcessor:
     # 요약 시작
     def processSummary(self, text):
         self.summarizer.setInput(text)
-        self.summarizer.setModel()
         success = self.summarizer.runProgram()
 
         result = self.summarizer.getResult()
