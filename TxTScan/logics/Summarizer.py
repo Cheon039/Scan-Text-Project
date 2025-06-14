@@ -33,7 +33,7 @@ class Summarizer:
             # 읽을 수 있는 문장 -> 모델이 읽을 숫자 리스트 -> 요약문
             tokens = tokenizer(self.inputText, return_tensors="pt", truncation=True, max_length=1024)["input_ids"]
 
-            output = model.generate(tokens, max_length=300, min_length=100, num_beams=4, early_stopping=True)
+            output = model.generate(tokens, max_length=1000, min_length=100, num_beams=4, length_penalty=2.0, early_stopping=True)
 
             summary = tokenizer.decode(output[0], skip_special_tokens=True, clean_up_tokenization_spaces=True).strip()
 
