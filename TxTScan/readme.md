@@ -2,12 +2,12 @@
 PyQt5 : pip install PyQt5
 pytesseract : pip install pytesseract
 opencv-python : pip install opencv-python
-googletrans==4.0.0rc1 : pip install googletrans==4.0.0rc1
 transformers : pip install transformers
 torch : pip install torch
 scikit-learn : pip install scikit-learn
 langdetect : pip install langdetect
 pymupdf : pip install pymupdf
+googletrans==4.0.0rc1 : pip install googletrans==4.0.0rc1
 httpcore : pip install httpcore==0.9.1
 httpx : pip install httpx==0.13.3
 
@@ -19,6 +19,7 @@ Tesseract-OCR.exe
  - TxTScan 폴더 내부 (main.py 있는 곳)에 package.bat 설치
  - tesseract-ocr-w64-setup-5.5.0.20241111.exe 설치 (기본 경로 권장)
  - googletrans와 httpcore, httpx 버전이 맞아야 합니다.
+ - 
  - 개발환경 : VSCode
 
  ⚠ 첫 실행 시 AI 모델 설치 과정이 있어 시간이 걸릴 수 있습니다.
