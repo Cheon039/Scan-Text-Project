@@ -38,6 +38,7 @@ class SaveResultView(QWidget):
 
         self.list.currentRowChanged.connect(self.showDetail)
 
+    # 저장 결과 Load
     def loadResults(self):
         self.results = self.resultManager.getResultList()
         self.list.clear()
@@ -45,6 +46,7 @@ class SaveResultView(QWidget):
             preview = item.strip().split("\n")[0][:30]
             self.list.addItem(f"{idx + 1}. {preview}...")
 
+    # 상세 저장 내용 보기
     def showDetail(self, index):
         if index >= 0:
             fullText = self.resultManager.getResult(index)  # 전체 텍스트 로드
@@ -52,6 +54,7 @@ class SaveResultView(QWidget):
         else:
             self.detailBox.clear()
 
+    # 결과 삭제 하기
     def handleDelete(self):
         current = self.list.currentRow()
         if current >= 0:

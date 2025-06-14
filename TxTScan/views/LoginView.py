@@ -13,7 +13,7 @@ class LoginView(QWidget):
         self.auth = Authentication()
         self.setWindowTitle("TxT Scan Login")
 
-        # 화면 해상도에 따른 크기 설정
+        # 해상도에 따른 화면 크기 변경
         screen = QApplication.primaryScreen()
         screenSize = screen.size()
         width = int(screenSize.width() * 0.4)
@@ -70,17 +70,19 @@ class LoginView(QWidget):
         mainLayout.addWidget(loginBox)
         self.setLayout(mainLayout)
 
+    # 로그인 버튼 클릭 시
     def handleLogin(self):
         user = self.idInput.text().strip()
         pw = self.pwInput.text().strip()
 
-        if self.auth.verify(user, pw):  # 로그인 성공 조건
+        if self.auth.verify(user, pw):  # 로그인 성공/실패 검증하기
             self.errorLabel.setStyleSheet("color: blue;")
             self.errorLabel.setText("로그인 성공")
-            self.goMainMenu()  # 메인메뉴로 이동
+            self.goMainMenu()  # 메인메뉴로
         else:
             self.errorLabel.setStyleSheet("color: red;")
             self.errorLabel.setText("아이디 또는 비밀번호가 잘못되었습니다.")
 
+    # 회원가입 버튼 클릭 시
     def handleSignup(self):
         self.goSign()

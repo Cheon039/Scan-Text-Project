@@ -1,8 +1,6 @@
 from PyQt5.QtWidgets import (
     QWidget, QTextEdit, QPushButton, QVBoxLayout, QHBoxLayout
 )
-from PyQt5.QtGui import QFont
-from PyQt5.QtCore import Qt
 
 class InputTextView(QWidget):
     def __init__(self, dataController, goResult, goBack):
@@ -35,10 +33,11 @@ class InputTextView(QWidget):
 
         self.setLayout(layoutV)
 
+    # 요약/번역 버튼 클릭 시
     def handleProcess(self):
-        text = self.textEdit.toPlainText().strip()
+        text = self.textEdit.toPlainText().strip() # 입력한 텍스트 읽기
         if not text:
-            return  # 텍스트 없음 표시
+            return  # 텍스트 없을 경우 return
 
-        result = self.dataController.process(text)
-        self.goResult(result)
+        result = self.dataController.process(text) # 요약/번역 실행
+        self.goResult(result) 

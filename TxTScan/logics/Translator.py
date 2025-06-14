@@ -6,12 +6,15 @@ class Translator:
         self.afterLanguage = defaultLang
         self.translatorAPI = GoogleTranslator()
 
+    # 번역 목표 언어 변경 가능하게 함
     def setLanguage(self, changeLang):
         self.afterLanguage = changeLang
 
+    # 현재 번역 언어 상태 반환
     def getLanguage(self):
         return (self.beforeLanguage, self.afterLanguage)
 
+    # 실제로 번역을 실행함
     def translate(self, text):
         try:
             result = self.translatorAPI.translate(text, src=self.beforeLanguage, dest=self.afterLanguage)

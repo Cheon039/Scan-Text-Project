@@ -47,21 +47,25 @@ class SignUpView(QWidget):
 
         self.setLayout(layoutV)
         
+    # 가입 버튼 클릭 시
     def handleSignup(self):
         user = self.idInput.text().strip()
         pw = self.pwInput.text().strip()
         confirm = self.confirmInput.text().strip()
 
+        # 필드에 값을 입력 했는지 검사
         if not user or not pw or not confirm:
             QMessageBox.warning(self, "오류", "모든 필드를 입력해주세요.")
             return
         
+        # 비밀번호 재확인 검증
         if pw != confirm:
             QMessageBox.warning(self, "오류", "비밀번호가 입력되지 않았습니다.")
             return
 
+        # 회원가입 성공 및 실패 검사
         if self.auth.register(user, pw):
             QMessageBox.information(self, "완료", "회원가입 성공, 로그인 해주세요.")
-            self.signCallBack()
+            self.signCallBack() # callback
         else:
             QMessageBox.warning(self, "실패", "존재하는 ID입니다.")

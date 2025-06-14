@@ -43,15 +43,18 @@ class ResultView(QWidget):
         backBtn.clicked.connect(self.handleBack)
         self.setLayout(layout)
 
+    # 복사 버튼 클릭 시
     def copyResult(self):
         clipboard = self.resultBox.clipboard() if hasattr(self.resultBox, 'clipboard') else QApplication.clipboard()
         clipboard.setText(self.resultBox.toPlainText())
         QMessageBox.information(self, "복사 완료", "복사되었습니다.")
 
+    # 뒤로가기 버튼 클릭 시 
     def handleBack(self):
         if self.goBack:
             self.goBack()
 
+    # 저장 버튼 클릭 시
     def handleSave(self):
         text = self.resultBox.toPlainText().strip()
         if text:
