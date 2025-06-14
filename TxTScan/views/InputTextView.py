@@ -13,11 +13,11 @@ class InputTextView(QWidget):
         self.initUI()
 
     def initUI(self):
-        layout = QVBoxLayout()
+        layoutV = QVBoxLayout()
 
         self.textEdit = QTextEdit()
         self.textEdit.setPlaceholderText("요약/번역할 텍스트를 입력하세요.")
-        layout.addWidget(self.textEdit)
+        layoutV.addWidget(self.textEdit)
 
         btnLayout = QHBoxLayout()
         startBtn = QPushButton("요약 / 번역 실행")
@@ -27,18 +27,18 @@ class InputTextView(QWidget):
         btnLayout.addWidget(clearBtn)
         btnLayout.addWidget(cancelBtn)
 
-        layout.addLayout(btnLayout)
+        layoutV.addLayout(btnLayout)
 
         startBtn.clicked.connect(self.handleProcess)
         clearBtn.clicked.connect(self.textEdit.clear)
         cancelBtn.clicked.connect(self.goBack)
 
-        self.setLayout(layout)
+        self.setLayout(layoutV)
 
     def handleProcess(self):
         text = self.textEdit.toPlainText().strip()
         if not text:
-            return  # 나중에 QMessageBox로 '텍스트 없음' 표시 가능
+            return  # 텍스트 없음 표시
 
         result = self.dataController.process(text)
         self.goResult(result)

@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QPushButton, QTextEdit, QLabel, QFileDialog, QMessageBox, QHBoxLayout
 from PyQt5.QtCore import Qt
 import os
+import fitz
 
 class UploadView(QWidget):
     def __init__(self, dataController, goResult, goBack):
@@ -12,7 +13,7 @@ class UploadView(QWidget):
         self.initUI()
 
     def initUI(self):
-        layout = QVBoxLayout()
+        layoutV = QVBoxLayout()
 
         self.infoLabel = QLabel("문서 또는 이미지 파일을 업로드하세요.")
         self.resultBox = QTextEdit()
@@ -31,21 +32,27 @@ class UploadView(QWidget):
         btnLayout.addWidget(processBtn)
         btnLayout.addWidget(backBtn)
 
-        layout.addWidget(self.infoLabel)
-        layout.addWidget(self.resultBox)
-        layout.addLayout(btnLayout)
-        self.setLayout(layout)
+        layoutV.addWidget(self.infoLabel)
+        layoutV.addWidget(self.resultBox)
+        layoutV.addLayout(btnLayout)
+        self.setLayout(layoutV)
 
         self.filePath = None
 
     def handleUpload(self):
-        filePath, _ = QFileDialog.getOpenFileName(self, "파일 선택", "", 
-            "문서 및 이미지 (*.txt *.pdf *.jpg *.png *.jpeg);;모든 파일 (*)")
+        filePath, _ = QFileDialog.getOpenFileName(self, "파일 선택", "", "문서 및 이미지 (*.txt *.pdf *.jpg *.png *.jpeg);;모든 파일 (*)")
         if filePath:
             self.filePath = filePath
             self.infoLabel.setText(f"선택된 파일: {os.path.basename(filePath)}")
         else:
             self.infoLabel.setText("파일이 선택되지 않았습니다.")
+
+    def extractPDFText(self, filepath):
+        doc = fitz.open(filepath)
+        text = ""
+        for page in doc:
+            text += page.get_text()
+        return text
 
     def handleProcess(self):
         if not self.filePath:
@@ -53,19 +60,22 @@ class UploadView(QWidget):
             return
 
         ext = os.path.splitext(self.filePath)[-1].lower()
+
         if ext in [".jpg", ".jpeg", ".png"]:
-            extracted = self.dataController.processOCR(self.filePath)
+            extract = self.dataController.processOCR(self.filePath)
         elif ext == ".txt":
             with open(self.filePath, "r", encoding="utf-8") as f:
-                extracted = f.read()
+                extract = f.read()
+        elif ext == ".pdf":
+            extract = self.extractPDFText(self.filePath)
         else:
-            QMessageBox.warning(self, "지원 안 됨", "현재는 txt 또는 이미지 파일만 지원합니다.")
+            QMessageBox.warning(self, "지원 안 됨", "현재는 txt, pdf, 이미지 파일만 지원합니다.")
             return
 
-        if not extracted.strip():
+        if not extract.strip():
             QMessageBox.warning(self, "오류", "텍스트를 추출할 수 없습니다.")
             return
 
-        result = self.dataController.process(extracted)
+        result = self.dataController.process(extract)
         self.resultBox.setText(result)
         self.goResult(result)

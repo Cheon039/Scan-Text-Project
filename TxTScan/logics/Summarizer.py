@@ -29,33 +29,18 @@ class Summarizer:
             else:
                 tokenizer, model = self.en_tokenizer, self.en_model
 
-            tokens = tokenizer(
-                self.inputText,
-                return_tensors="pt",
-                truncation=True,
-                max_length=1024
-            )["input_ids"]
+            tokens = tokenizer(self.inputText, return_tensors="pt", truncation=True, max_length=1024)["input_ids"]
 
-            output = model.generate(
-                tokens,
-                max_length=300,
-                min_length=100,
-                num_beams=4,
-                early_stopping=True
-            )
+            output = model.generate(tokens, max_length=300, min_length=100, num_beams=4, early_stopping=True)
 
-            summary = tokenizer.decode(
-                output[0],
-                skip_special_tokens=True,
-                clean_up_tokenization_spaces=True
-            ).strip()
+            summary = tokenizer.decode(output[0], skip_special_tokens=True, clean_up_tokenization_spaces=True).strip()
 
             self.programResult = self.postProcess(summary)
             return True
 
         except Exception as e:
-            print(f"[Summarizer 오류] {e}")
-            self.programResult = "[요약 실패: Summarizer 오류 발생]"
+            print(f"요약 오류 : {e}")
+            self.programResult = "[요약 실패: 요약 중 오류 발생]"
             return False
 
     def postProcess(self, text):

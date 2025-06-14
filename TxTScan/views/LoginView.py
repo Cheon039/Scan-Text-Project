@@ -37,13 +37,13 @@ class LoginView(QWidget):
         self.errorLabel = QLabel("")
         self.errorLabel.setAlignment(Qt.AlignCenter)
 
-        signupLabel = QLabel('<a href="#">Sign up</a>')
-        signupLabel.setTextFormat(Qt.RichText)
-        signupLabel.setTextInteractionFlags(Qt.TextBrowserInteraction)
-        signupLabel.setOpenExternalLinks(False)
-        signupLabel.setStyleSheet("color: purple;")
-        signupLabel.setCursor(QCursor(Qt.PointingHandCursor))
-        signupLabel.linkActivated.connect(self.handleSignup)
+        signUpLabel = QLabel('<a href="#">Sign up</a>')
+        signUpLabel.setTextFormat(Qt.RichText)
+        signUpLabel.setTextInteractionFlags(Qt.TextBrowserInteraction)
+        signUpLabel.setOpenExternalLinks(False)
+        signUpLabel.setStyleSheet("color: purple;")
+        signUpLabel.setCursor(QCursor(Qt.PointingHandCursor))
+        signUpLabel.linkActivated.connect(self.handleSignup)
 
         loginButton = QPushButton("확인")
         loginButton.clicked.connect(self.handleLogin)
@@ -57,7 +57,7 @@ class LoginView(QWidget):
         loginLayout.addWidget(self.errorLabel)
 
         btmLayout = QHBoxLayout()
-        btmLayout.addWidget(signupLabel)
+        btmLayout.addWidget(signUpLabel)
         btmLayout.addStretch()
         btmLayout.addWidget(loginButton)
 

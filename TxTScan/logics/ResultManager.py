@@ -13,7 +13,6 @@ class ResultManager:
                 json.dump([], f)
 
     def saveResult(self, resultText):
-        """새 결과 저장"""
         with open(self.filePath, "r") as f:
             data = json.load(f)
 
@@ -22,7 +21,6 @@ class ResultManager:
             json.dump(data, f, ensure_ascii=False, indent=2)
 
     def getResultList(self):
-        """결과 목록 불러오기 (요약용 리스트)"""
         with open(self.filePath, "r") as f:
             data = json.load(f)
 
@@ -30,7 +28,6 @@ class ResultManager:
         return [text.split('\n')[0][:50] + "..." if len(text) > 50 else text for text in data]
 
     def getResult(self, index):
-        """해당 인덱스의 전체 결과 텍스트 반환"""
         with open(self.filePath, "r") as f:
             data = json.load(f)
 
@@ -39,7 +36,6 @@ class ResultManager:
         return "결과 없음"
 
     def deleteResult(self, index):
-        """해당 인덱스의 결과 삭제"""
         with open(self.filePath, "r") as f:
             data = json.load(f)
 

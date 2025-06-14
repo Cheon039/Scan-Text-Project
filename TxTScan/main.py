@@ -27,8 +27,8 @@ class MainApp(QMainWindow):
         self.setCentralWidget(loginView)
 
     def showSignUpView(self):
-        signupView = SignUpView(signupCallBack=self.showLoginView)
-        self.setCentralWidget(signupView)
+        signUpView = SignUpView(signUpCallBack=self.showLoginView)
+        self.setCentralWidget(signUpView)
 
     def showMainMenuView(self):
 
@@ -46,27 +46,19 @@ class MainApp(QMainWindow):
         self.setCentralWidget(menuView)
 
     def center(self):
-        qr = self.frameGeometry()
-        cp = QDesktopWidget().availableGeometry().center()
-        qr.moveCenter(cp)
-        self.move(qr.topLeft())
+        qRect = self.frameGeometry()
+        centerPoint = QDesktopWidget().availableGeometry().center()
+        qRect.moveCenter(centerPoint)
+        self.move(qRect.topLeft())
 
     def showInputTextView(self):
-        inputView = InputTextView(
-        dataController=self.dataController,       # 핵심 처리 객체
-        goResult=self.showResultView,             # 처리 후 결과 화면으로
-        goBack=self.showMainMenuView              # '취소' 시 메인메뉴로 복귀
-        )
+        inputView = InputTextView(dataController=self.dataController, goResult=self.showResultView, goBack=self.showMainMenuView)
         self.setCentralWidget(inputView)
-
-    def showUploadView(self):
-        print("UploadView로 이동 (아직 구현 안됨)")
 
     def showResultView(self, result=None):
         if result is not None and isinstance(result, str):
-            self.lastResult = result  # ✅ 새로 들어온 결과 저장
+            self.lastResult = result  # 새로 들어온 결과를 저장
         elif self.lastResult is None:
-            print("[INFO] 표시할 결과가 없습니다.")
             self.lastResult = "[결과가 없습니다.]"
 
         resultView = ResultView(self.lastResult, goBack=self.showMainMenuView, dataController=self.dataController)
@@ -77,11 +69,7 @@ class MainApp(QMainWindow):
         self.setCentralWidget(view)
 
     def showUploadView(self):
-        uploadView = UploadView(
-            dataController=self.dataController,
-            goResult=self.showResultView,
-            goBack=self.showMainMenuView
-        )
+        uploadView = UploadView(dataController=self.dataController, goResult=self.showResultView, goBack=self.showMainMenuView)
         self.setCentralWidget(uploadView)
 
 if __name__ == "__main__":

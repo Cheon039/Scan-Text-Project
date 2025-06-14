@@ -11,27 +11,42 @@ class OCRProcessor:
         self.resultText = ""
         self.language = "kor"
 
-        # 자동 경로 감지
-        tesseract_cmd = shutil.which("tesseract")
+        tesseractCmd = shutil.which("tesseract")
 
-        if not tesseract_cmd:
-            # 기본 설치 위치 시도
-            default_path = "C:\\Program Files\\Tesseract-OCR\\tesseract.exe"
-            if os.path.exists(default_path):
-                tesseract_cmd = default_path
+        if not tesseractCmd:
+            defaultPath = "C:\\Program Files\\Tesseract-OCR\\tesseract.exe"
+            if os.path.exists(defaultPath):
+                tesseractCmd = defaultPath
 
-        # config.json 자동 생성
-        config_path = "config.json"
-        if tesseract_cmd:
+        configPath = "config.json"
+        if tesseractCmd:
             try:
-                with open(config_path, "w") as f:
-                    json.dump({"tesseract_path": tesseract_cmd}, f, indent=2)
-                    print(f"[OCRProcessor] config.json 자동 생성 완료: {tesseract_cmd}")
+                with open(configPath, "w") as f:
+                    json.dump({"tesseract_path": tesseractCmd}, f, indent=2)
             except Exception as e:
                 print(f"[OCRProcessor] config 생성 실패: {e}")
 
-        # 최종 확인
-        if not tesseract_cmd or not os.path.exists(tesseract_cmd):
+        if not tesseractCmd or not os.path.exists(tesseractCmd):
             raise FileNotFoundError("Tesseract 실행 파일을 찾을 수 없습니다. 시스템 PATH 또는 config.json을 확인하세요.")
 
-        pytesseract.pytesseract.tesseract_cmd = tesseract_cmd
+        pytesseract.pytesseract.tesseract_cmd = tesseractCmd
+
+    def setImagePath(self, path):
+        self.imagePath = path
+
+    def setLanguage(self, lang):
+        self.language = lang
+
+    def runOCR(self):
+        from PIL import Image
+        try:
+            img = Image.open(self.imagePath)
+            self.resultText = pytesseract.image_to_string(img, lang=self.language)
+            return True
+        except Exception as e:
+            print(f"[OCRProcessor] OCR 오류 발생: {e}")
+            self.resultText = ""
+            return False
+
+    def getText(self):
+        return self.resultText

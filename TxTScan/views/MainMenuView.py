@@ -17,13 +17,13 @@ class MainMenuView(QWidget):
         self.initUI()
 
     def initUI(self):
-        layout = QVBoxLayout()
-        tooBar = QHBoxLayout()
-        tooBar.addStretch()
+        layoutV = QVBoxLayout()
+        layoutH = QHBoxLayout()
+        layoutH.addStretch()
         logoutBtn = QPushButton("로그아웃")
         logoutBtn.clicked.connect(self.logout)
-        tooBar.addWidget(logoutBtn)
-        layout.addLayout(tooBar)
+        layoutH.addWidget(logoutBtn)
+        layoutV.addLayout(layoutH)
 
         title = QLabel("TXT Scan Main Menu")
         title.setFont(QFont("Arial", 18, QFont.Bold))
@@ -40,10 +40,10 @@ class MainMenuView(QWidget):
         saveViewBtn.clicked.connect(self.goSave)
         logoutBtn.clicked.connect(self.logout)
 
-        layout.addWidget(title)
-        layout.addWidget(uploadBtn)
-        layout.addWidget(inputBtn)
-        layout.addWidget(resultBtn)
-        layout.addWidget(saveViewBtn)
+        layoutV.addWidget(title)
+        layoutV.addWidget(uploadBtn)
+        layoutV.addWidget(inputBtn)
+        layoutV.addWidget(resultBtn)
+        layoutV.addWidget(saveViewBtn)
 
-        self.setLayout(layout)
+        self.setLayout(layoutV)

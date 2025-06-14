@@ -6,16 +6,16 @@ from PyQt5.QtCore import Qt
 from logics.Authentication import Authentication
 
 class SignUpView(QWidget):
-    def __init__(self, signupCallBack):
+    def __init__(self, signUpCallBack):
         super().__init__()
         self.setWindowTitle("SignUp")
         self.auth = Authentication()
-        self.signCallBack = signupCallBack
+        self.signCallBack = signUpCallBack
 
         self.initUI()
     
     def initUI(self):
-        layout = QVBoxLayout()
+        layoutV = QVBoxLayout()
 
         title = QLabel("Sign Up")
         title.setFont(QFont("Arial", 18, QFont.Bold))
@@ -32,20 +32,20 @@ class SignUpView(QWidget):
         self.confirmInput.setPlaceholderText("비밀번호 확인")
         self.confirmInput.setEchoMode(QLineEdit.Password)
 
-        signupButton = QPushButton("가입하기")
-        signupButton.clicked.connect(self.handleSignup)
+        signUpBtn = QPushButton("가입하기")
+        signUpBtn.clicked.connect(self.handleSignup)
 
-        backButton = QPushButton("뒤로가기")
-        backButton.clicked.connect(self.signCallBack)
+        backBtn = QPushButton("뒤로가기")
+        backBtn.clicked.connect(self.signCallBack)
 
-        layout.addWidget(title)
-        layout.addWidget(self.idInput)
-        layout.addWidget(self.pwInput)
-        layout.addWidget(self.confirmInput)
-        layout.addWidget(signupButton)
-        layout.addWidget(backButton)
+        layoutV.addWidget(title)
+        layoutV.addWidget(self.idInput)
+        layoutV.addWidget(self.pwInput)
+        layoutV.addWidget(self.confirmInput)
+        layoutV.addWidget(signUpBtn)
+        layoutV.addWidget(backBtn)
 
-        self.setLayout(layout)
+        self.setLayout(layoutV)
         
     def handleSignup(self):
         user = self.idInput.text().strip()
@@ -53,7 +53,7 @@ class SignUpView(QWidget):
         confirm = self.confirmInput.text().strip()
 
         if not user or not pw or not confirm:
-            QMessageBox.warning(self, "오류", "모든 필드를 입력하세요.")
+            QMessageBox.warning(self, "오류", "모든 필드를 입력해주세요.")
             return
         
         if pw != confirm:
@@ -61,7 +61,7 @@ class SignUpView(QWidget):
             return
 
         if self.auth.register(user, pw):
-            QMessageBox.information(self, "완료", "회원가입 성공! 로그인 해주세요.")
+            QMessageBox.information(self, "완료", "회원가입 성공, 로그인 해주세요.")
             self.signCallBack()
         else:
-            QMessageBox.warning(self, "실패", "이미 존재하는 ID입니다.")
+            QMessageBox.warning(self, "실패", "존재하는 ID입니다.")

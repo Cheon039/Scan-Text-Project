@@ -15,11 +15,11 @@ class ResultView(QWidget):
         layout = QVBoxLayout()
 
         if originalText:
-            origBox = QTextEdit()
-            origBox.setReadOnly(True)
-            origBox.setPlainText(originalText)
-            origBox.setPlaceholderText("입력한 원문")
-            layout.addWidget(origBox)
+            originalBox = QTextEdit()
+            originalBox.setReadOnly(True)
+            originalBox.setPlainText(originalText)
+            originalBox.setPlaceholderText("입력한 원문")
+            layout.addWidget(originalBox)
 
         self.resultBox = QTextEdit()
         self.resultBox.setReadOnly(True)
@@ -46,7 +46,7 @@ class ResultView(QWidget):
     def copyResult(self):
         clipboard = self.resultBox.clipboard() if hasattr(self.resultBox, 'clipboard') else QApplication.clipboard()
         clipboard.setText(self.resultBox.toPlainText())
-        QMessageBox.information(self, "복사 완료", "결과가 클립보드에 복사되었습니다.")
+        QMessageBox.information(self, "복사 완료", "복사되었습니다.")
 
     def handleBack(self):
         if self.goBack:
@@ -58,7 +58,3 @@ class ResultView(QWidget):
             if self.dataController:
                 self.dataController.saveResult(text)
                 QMessageBox.information(self, "저장 완료", "결과가 저장되었습니다.")
-            else:
-                QMessageBox.warning(self, "저장 실패", "데이터 컨트롤러가 없습니다.")
-        else:
-            QMessageBox.warning(self, "저장 실패", "저장할 결과가 없습니다.")

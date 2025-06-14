@@ -7,6 +7,9 @@ torch : pip install torch
 Tesseract-OCR
 sickit-learn : pip install scikit-learn
 langdetect : pip install langdetect
+pymupdf : pip install pymupdf
+
+OCR : kor.traineddata 다운 필요, 배포난이도 ↑
 
 1. LoginView → SignUpView → Authentication → main.py → MainMenuView
 2. InputTextView → TextProcessor → Summarizer + Translator → ResultView
