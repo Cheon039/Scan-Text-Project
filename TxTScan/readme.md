@@ -4,62 +4,35 @@ opencv-python : pip install opencv-python
 googletrans==4.0.0rc1 : pip install googletrans==4.0.0rc1
 transformers : pip install transformers
 torch : pip install torch
-Tesseract-OCR
-sickit-learn : pip install scikit-learn
+scikit-learn : pip install scikit-learn
 langdetect : pip install langdetect
 pymupdf : pip install pymupdf
+httpcore : pip install httpcore==0.9.1
+httpx : pip install httpx==0.13.3
 
-OCR : kor.traineddata 다운 필요, 배포난이도 ↑
+Tesseract-OCR.exe
 
-1. LoginView → SignUpView → Authentication → main.py → MainMenuView
-2. InputTextView → TextProcessor → Summarizer + Translator → ResultView
-3. UploadView → OCRProcessor → TextProcessor (재사용)
-4. ResultManager → SaveResultView
+0. package 설치 방법 : 
+ - TxTScan 폴더 내부 (main.py 있는 곳)에 package.bat 설치
+ - tesseract-ocr-w64-setup-5.5.0.20241111.exe 설치 (기본 경로 권장)
+ - googletrans와 httpcore, httpx 버전이 맞아야 합니다..
 
-TXTScan/
-├── main.py
-├── views/
-│   ├── LoginView.py
-│   ├── SignUpView.py
-│   ├── MainMenuView.py
-│   ├── InputTextView.py
-│   ├── UploadView.py
-│   ├── ResultView.py
-│   └── SaveResultView.py
-├── logic/
-│   ├── Authentication.py
-│   ├── OCRProcessor.py
-│   ├── Summarizer.py
-│   ├── Translator.py
-│   ├── TextProcessor.py
-│   └── ResultManager.py
-├── assets/
-│   └── example_img.png
-├── user_data/
-│   └── user_credential.json
-└── requirements.txt
+1. 로그인 창 좌측 하단, SignUp
 
-1단계 – 인증과 화면 전환의 뼈대
-① views/LoginView.py	로그인 화면 구성 -> # 위치 이동 필요 (중심으로)
-② views/SignUpView.py	계정 등록 화면 (로컬 저장용)	
-③ logic/Authentication.py	ID/PW 저장 및 검증 로직	
-④ main.py	여러 화면 전환을 제어하는 중앙 허브	
-⑤ views/MainMenuView.py	텍스트 입력, 업로드, 결과 보기 진입 메뉴
+2. 메인메뉴 :
+ 2-1 : 문서/이미지 업로드 :
+  2-1-1. 파일 선택 후 파일 업로드 후, 요약/번역 버튼 클릭
 
-2단계 – 텍스트 입력 → 요약/번역 → 결과 출력
-⑥ views/InputTextView.py	텍스트 입력창 UI + 처리 버튼	
-⑦ logic/TextProcessor.py	텍스트 받아 Summarizer + Translator 호출	
-⑧ logic/Summarizer.py	텍스트 요약 기능 (dummy or transformers)	
-⑨ logic/Translator.py	번역 기능 (googletrans 사용)	
-⑩ views/ResultView.py	결과 텍스트를 보여주는 화면
+ 2-2 : 텍스트 직접 입력
+   2-2-1. 텍스트 입력 후, 요약/번역 버튼 클릭
+   2-2-2. 초기화 버튼 클릭으로 텍스트 삭제 가능
 
-3단계 – 업로드 + OCR 연동
-⑪ views/UploadView.py	이미지 업로드 UI	
-⑫ logic/OCRProcessor.py	이미지에서 텍스트 추출 (pytesseract)	
-⑬ (재사용) TextProcessor → Summarizer, Translator	앞에서 만든 것과 흐름 공유
+ 2-3 : 최신 결과 보기
+  - 마지막으로 업로드 한 결과를 확인할 수 있다.
+  - 복사 및 저장이 가능하다.
 
-4단계 – 결과 저장 / 저장 목록 보기
-⑭ logic/ResultManager.py	결과 저장 (JSON or 메모리)	
-⑮ views/SaveResultView.py	저장된 결과 목록 + 상세보기 UI	
-⑯ assets/	테스트 이미지나 아이콘 리소스 등	
-⑰ user_data/	계정 정보 및 결과 저장 파일 위치	
+ 2-4 : 결과 저장 목록
+  - 저장된 결과를 확인할 수 있다.
+  - 저장된 결과 선택 후, 삭제 버튼 클릭 시 저장한 결과를 삭제할 수 있다.
+
+ 2-5 : 로그아웃 (우측 상단)
