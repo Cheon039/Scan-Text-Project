@@ -47,9 +47,11 @@ class Summarizer:
 
     # 요약 결과 후처리
     def postProcess(self, text):
+        # 불필요한 단어 제거
         text = re.sub(r"(않고\s+){2,}", "않고 ", text)
         text = re.sub(r"(다\.){2,}", "다.", text)
-
+        
+        # 문장 단위 중복 제거
         sentences = re.split(r'(?<=[.。!?])\s+', text)
         seen = set()
         unique = []
