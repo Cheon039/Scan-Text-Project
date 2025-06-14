@@ -17,7 +17,7 @@ class Authentication:
             data = json.load(f)
 
         if user in data:
-            return False # 중복 ID
+            return False # ID 중복 시
         
         data[user] = pw # ID: PW 저장
         with open(self.filepath, "w") as f:
