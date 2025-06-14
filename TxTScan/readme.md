@@ -1,3 +1,4 @@
+<package.bat 구성요소>
 PyQt5 : pip install PyQt5
 pytesseract : pip install pytesseract
 opencv-python : pip install opencv-python
@@ -10,12 +11,17 @@ pymupdf : pip install pymupdf
 httpcore : pip install httpcore==0.9.1
 httpx : pip install httpx==0.13.3
 
+<exe>
 Tesseract-OCR.exe
+
 
 0. package 설치 방법 : 
  - TxTScan 폴더 내부 (main.py 있는 곳)에 package.bat 설치
  - tesseract-ocr-w64-setup-5.5.0.20241111.exe 설치 (기본 경로 권장)
- - googletrans와 httpcore, httpx 버전이 맞아야 합니다..
+ - googletrans와 httpcore, httpx 버전이 맞아야 합니다.
+ - 개발환경 : VSCode
+
+ ⚠ 첫 실행 시 AI 모델 설치 과정이 있어 시간이 걸릴 수 있습니다.
 
 1. 로그인 창 좌측 하단, SignUp
 
